@@ -28,13 +28,17 @@
 </head>
 <body class="min-h-screen text-slate-800 flex flex-col antialiased">
 
+    <!-- 狀態連線提示欄位 (修正點：補上此 ID 容器) -->
+    <div id="connection-banner"></div>
+
     <!-- 頂部導覽列 -->
     <header class="bg-white border-b border-slate-100 sticky top-0 z-40 shadow-sm">
         <div class="max-w-md mx-auto px-5 h-14 flex items-center justify-between">
             <div class="flex items-center space-x-2.5">
                 <div class="bg-indigo-600 text-white p-1.5 rounded-xl shadow-sm flex items-center justify-center">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                     </svg>
                 </div>
                 <span class="text-base font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">消費者偏好調查</span>
@@ -66,7 +70,8 @@
                 <label class="block text-sm font-bold text-slate-800 leading-tight">
                     1. 您的性別 <span class="text-rose-500">*</span>
                 </label>
-                <div class="space-y-2">
+
+<div class="space-y-2">
                     <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
                         <input type="radio" name="gender" value="男性" required
                             class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
@@ -88,7 +93,8 @@
             <!-- Q2: 學歷 -->
             <div class="bg-white border border-slate-100 rounded-[2rem] p-5 shadow-sm space-y-3.5">
                 <label class="block text-sm font-bold text-slate-800 leading-tight">
-                    2. 您的學歷 <span class="text-rose-500">*</span>
+
+2. 您的學歷 <span class="text-rose-500">*</span>
                 </label>
                 <div class="space-y-2">
                     <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
@@ -106,7 +112,8 @@
                             class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
                         <span class="text-sm font-semibold text-slate-700 leading-tight">五專學生</span>
                     </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
+
+<label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
                         <input type="radio" name="education" value="大學學生" required
                             class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
                         <span class="text-sm font-semibold text-slate-700 leading-tight">大學學生</span>
@@ -128,7 +135,8 @@
                     <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
                         <input type="radio" name="frequency" value="每周一次" required
                             class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">每周一次</span>
+
+<span class="text-sm font-semibold text-slate-700 leading-tight">每周一次</span>
                     </label>
                     <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
                         <input type="radio" name="frequency" value="兩周三次" required
@@ -145,7 +153,8 @@
                             class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
                         <span class="text-sm font-semibold text-slate-700 leading-tight">半年一次</span>
                     </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
+
+<label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
                         <input type="radio" name="frequency" value="我幾乎沒有網購" required
                             class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
                         <span class="text-sm font-semibold text-slate-700 leading-tight">我幾乎沒有網購</span>
@@ -167,7 +176,8 @@
                     <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
                         <input type="radio" name="platform" value="MOMO" required
                             class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">MOMO</span>
+
+<span class="text-sm font-semibold text-slate-700 leading-tight">MOMO</span>
                     </label>
                     <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
                         <input type="radio" name="platform" value="PCHome" required
@@ -189,7 +199,8 @@
 
             <!-- Q5: 網購最常購買商品 (單選) -->
             <div class="bg-white border border-slate-100 rounded-[2rem] p-5 shadow-sm space-y-3.5">
-                <label class="block text-sm font-bold text-slate-800 leading-tight">
+
+<label class="block text-sm font-bold text-slate-800 leading-tight">
                     5. 您網購「最常購買」哪一種商品類別？ <span class="text-rose-500">*</span>
                 </label>
                 <div class="space-y-2">
@@ -208,7 +219,8 @@
                             class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
                         <span class="text-sm font-semibold text-slate-700 leading-tight">衣服鞋子與穿搭配件</span>
                     </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
+
+<label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
                         <input type="radio" name="favorite_category" value="3C 電子與配件周邊" required
                             class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
                         <span class="text-sm font-semibold text-slate-700 leading-tight">3C 電子與配件周邊</span>
@@ -229,7 +241,8 @@
                 <div class="space-y-2">
                     <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
                         <input type="radio" name="spend_range" value="新台幣 300元以下" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
+
+class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
                         <span class="text-sm font-semibold text-slate-700 leading-tight">新台幣 300元以下</span>
                     </label>
                     <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
@@ -245,7 +258,8 @@
                     <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
                         <input type="radio" name="spend_range" value="新台幣 3,001元以上" required
                             class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">新台幣 3,001元以上</span>
+
+<span class="text-sm font-semibold text-slate-700 leading-tight">新台幣 3,001元以上</span>
                     </label>
                 </div>
             </div>
@@ -267,7 +281,8 @@
                         <span class="text-sm font-semibold text-slate-700 leading-tight">信用卡 / 金融卡刷卡</span>
                     </label>
                     <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="checkbox" name="payment_methods" value="行動支付 (如 LINE Pay 等)"
+
+<input type="checkbox" name="payment_methods" value="行動支付 (如 LINE Pay 等)"
                             class="h-5 w-5 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 shrink-0" onchange="checkCheckboxRequired(); updateOptionStyles()">
                         <span class="text-sm font-semibold text-slate-700 leading-tight">行動支付 (如 LINE Pay 等)</span>
                     </label>
@@ -290,7 +305,8 @@
                             class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
                         <span class="text-sm font-semibold text-slate-700 leading-tight">商品價格最便宜</span>
                     </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
+
+<label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
                         <input type="radio" name="attract_reason" value="免運費活動頻率高" required
                             class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
                         <span class="text-sm font-semibold text-slate-700 leading-tight">免運費活動頻率高</span>
@@ -306,30 +322,59 @@
                         <span class="text-sm font-semibold text-slate-700 leading-tight">平台介面安全好用</span>
                     </label>
                     <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="attract_reason" value="商品款式或種類齊全" required
+
+<input type="radio" name="attract_reason" value="商品款式或種類齊全" required
                             class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
                         <span class="text-sm font-semibold text-slate-700 leading-tight">商品款式或種類齊全</span>
                     </label>
                 </div>
             </div>
 
-            <!-- Q9: 物流滿意度 (星級打分) -->
+            <!-- Q9: 物流滿意度 (星級打分) (修正點：展開 Template Literals 為靜態 HTML) -->
             <div class="bg-white border border-slate-100 rounded-[2rem] p-5 shadow-sm space-y-3.5">
                 <label class="block text-sm font-bold text-slate-800 leading-tight">
                     9. 您對目前台灣物流「取貨便利與配送速度」滿意度打分 <span class="text-rose-500">*</span>
                 </label>
                 
                 <div class="flex flex-col items-center justify-center p-5 bg-slate-50/50 border border-slate-200/60 rounded-2xl">
-                    <!-- 隱藏實際用來遞交 Pageclip 的 radio 欄位 -->
                     <div class="flex space-x-2" id="rating-stars-container">
-                        ${[1, 2, 3, 4, 5].map(num => `
-                            <label class="cursor-pointer transition active:scale-125 hover:scale-110">
-                                <input type="radio" name="delivery_rating" value="${num}" required class="sr-only" onchange="updateStarUI(${num})">
-                                <svg class="w-9 h-9 text-slate-300 transition-colors duration-150 fill-current star-svg" data-index="${num}" viewBox="0 0 24 24">
-                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                                </svg>
-                            </label>
-                        `).join('')}
+                        <!-- 第 1 顆星 -->
+                        <label class="cursor-pointer transition active:scale-125 hover:scale-110">
+                            <input type="radio" name="delivery_rating" value="1" required class="sr-only" onchange="updateStarUI(1)">
+                            <svg class="w-9 h-9 text-slate-300 transition-colors duration-150 fill-current star-svg" data-index="1" viewBox="0 0 24 24">
+                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                            </svg>
+                        </label>
+                        <!-- 第 2 顆星 -->
+                        <label class="cursor-pointer transition active:scale-125 hover:scale-110">
+                            <input type="radio" name="delivery_rating" value="2" required class="sr-only" onchange="updateStarUI(2)">
+
+<svg class="w-9 h-9 text-slate-300 transition-colors duration-150 fill-current star-svg" data-index="2" viewBox="0 0 24 24">
+                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                            </svg>
+                        </label>
+                        <!-- 第 3 顆星 -->
+                        <label class="cursor-pointer transition active:scale-125 hover:scale-110">
+                            <input type="radio" name="delivery_rating" value="3" required class="sr-only" onchange="updateStarUI(3)">
+                            <svg class="w-9 h-9 text-slate-300 transition-colors duration-150 fill-current star-svg" data-index="3" viewBox="0 0 24 24">
+                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                            </svg>
+                        </label>
+                        <!-- 第 4 顆星 -->
+                        <label class="cursor-pointer transition active:scale-125 hover:scale-110">
+                            <input type="radio" name="delivery_rating" value="4" required class="sr-only" onchange="updateStarUI(4)">
+                            <svg class="w-9 h-9 text-slate-300 transition-colors duration-150 fill-current star-svg" data-index="4" viewBox="0 0 24 24">
+                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                            </svg>
+                        </label>
+                        <!-- 第 5 顆星 -->
+                        <label class="cursor-pointer transition active:scale-125 hover:scale-110">
+                            <input type="radio" name="delivery_rating" value="5" required class="sr-only" onchange="updateStarUI(5)">
+
+<svg class="w-9 h-9 text-slate-300 transition-colors duration-150 fill-current star-svg" data-index="5" viewBox="0 0 24 24">
+                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                            </svg>
+                        </label>
                     </div>
                     <span class="text-[11px] text-slate-400 font-bold mt-2.5" id="rating-text">尚未選擇分數</span>
                 </div>
@@ -362,7 +407,8 @@
         // 初始化載入狀態檢測 (如果是在開發平台 preview 中，會顯示測試模式)
         window.addEventListener('load', () => {
             const banner = document.getElementById('connection-banner');
-            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
             const isPlatform = window.location.hostname.includes('google') || window.location.hostname.includes('goog');
             
             if (isPlatform) {
@@ -397,8 +443,7 @@
             if (!group) return;
             const checked = group.querySelectorAll('input[type="checkbox"]:checked');
             const all = group.querySelectorAll('input[type="checkbox"]');
-            
-            all.forEach(cb => {
+all.forEach(cb => {
                 if (checked.length > 0) {
                     cb.removeAttribute('required');
                 } else {
