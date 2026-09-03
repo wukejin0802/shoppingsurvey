@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>消費者網購平台偏好與熱門商品購買習慣調查</title>
-    <!-- 引入 Tailwind CSS 提供現代化、美觀的 UI 設計 -->
+    <title>消費者網購平台偏好調查</title>
+    <!-- 引入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- 步驟 2：將 Pageclip 樣式表新增至 <head> -->
+    <!-- Pageclip 樣式 -->
     <link rel="stylesheet" href="https://s.pageclip.co/v1/pageclip.css" media="screen">
 
     <style>
@@ -15,463 +14,491 @@
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #f8fafc;
-            /* 避免手機瀏覽器點擊時出現藍色高亮框 */
             -webkit-tap-highlight-color: transparent; 
         }
-        /* Pageclip 提交中的按鈕樣式與動畫微調 */
+        .survey-step { display: none; }
+        .survey-step.active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         .pageclip-form__submit--loading {
             opacity: 0.85;
             pointer-events: none;
-            background-color: #4f46e5 !important; /* 保持 Indigo 顏色 */
+            background-color: #4f46e5 !important;
         }
     </style>
 </head>
 <body class="min-h-screen text-slate-800 flex flex-col antialiased">
 
-    <!-- 狀態連線提示欄位 (修正點：補上此 ID 容器) -->
     <div id="connection-banner"></div>
 
-    <!-- 頂部導覽列 -->
+    <!-- 頂部導覽與進度條 -->
     <header class="bg-white border-b border-slate-100 sticky top-0 z-40 shadow-sm">
         <div class="max-w-md mx-auto px-5 h-14 flex items-center justify-between">
             <div class="flex items-center space-x-2.5">
                 <div class="bg-indigo-600 text-white p-1.5 rounded-xl shadow-sm flex items-center justify-center">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                     </svg>
                 </div>
                 <span class="text-base font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">消費者偏好調查</span>
             </div>
-            <span class="text-[10px] bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full font-bold">學術專題</span>
+            <div class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded-lg">
+                <span id="step-counter">1</span> / 11
+            </div>
+        </div>
+        <!-- 進度條 -->
+        <div class="w-full bg-slate-100 h-1">
+            <div id="progress-bar" class="bg-indigo-500 h-1 transition-all duration-500" style="width: 9%"></div>
         </div>
     </header>
 
-    <!-- 主要內容區 -->
-    <main class="flex-grow max-w-md w-full mx-auto px-4 py-5 space-y-4">
-        
-        <!-- 問卷大標題說明卡片 -->
-        <div class="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm">
-            <h1 class="text-xl font-extrabold text-slate-900 leading-snug">消費者網購平台偏好與熱門商品購買習慣調查</h1>
-            <p class="text-slate-500 text-xs leading-relaxed mt-3 whitespace-pre-line">本問卷旨在探討消費者的性別、身份，在各大網路購物平台的使用頻率、最愛用的購物平台，以及網購主要購買的商品種類與付款方式。您的意見將以完全匿名方式進行統計分析，僅作為專題研究討論之用。感謝您的撥空填寫！</p>
-            <div class="flex items-center space-x-1 text-[10px] text-slate-400 font-semibold mt-4 pt-4 border-t border-slate-50">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <span>預估填寫時間：約 2 分鐘</span>
-            </div>
-        </div>
-
-        <!-- 步驟 3：使用 Pageclip 標籤建立表單 -->
-        <form action="https://send.pageclip.co/X4J8LyGM5CX4ZYCq9NV5PYs91KGJAQ8B" class="pageclip-form space-y-4" method="post" id="survey-form">
+    <main class="flex-grow max-w-md w-full mx-auto px-4 py-6">
+        <form action="https://send.pageclip.co/X4J8LyGM5CX4ZYCq9NV5PYs91KGJAQ8B" class="pageclip-form" method="post" id="survey-form">
             
-            <!-- Q1: 性別 -->
-            <div class="bg-white border border-slate-100 rounded-[2rem] p-5 shadow-sm space-y-3.5">
-                <label class="block text-sm font-bold text-slate-800 leading-tight">
-                    1. 您的性別 <span class="text-rose-500">*</span>
-                </label>
+            <!-- Step 0: 介紹頁 -->
+            <div class="survey-step active" data-step="0">
+                <div class="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm mb-6">
+                    <h1 class="text-xl font-extrabold text-slate-900 leading-snug">消費者網購平台偏好與熱門商品購買習慣調查</h1>
+                    <p class="text-slate-500 text-xs leading-relaxed mt-4 whitespace-pre-line">
+                        感謝您參與本研究。您的回答將完全匿名，僅供專題分析使用。
+                        請點擊下方按鈕開始填寫。
+                    </p>
+                    <div class="flex items-center space-x-1 text-[10px] text-slate-400 font-semibold mt-6 pt-4 border-t border-slate-50">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 
-<div class="space-y-2">
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="gender" value="男性" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">男性</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="gender" value="女性" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">女性</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="gender" value="其他" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">其他</span>
-                    </label>
+</svg>
+                        <span>預估時間：2 分鐘</span>
+                    </div>
+                </div>
+                <button type="button" onclick="nextStep()" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-lg active:scale-95 transition">開始填寫問卷</button>
+            </div>
+
+            <!-- Q1: 性別 -->
+            <div class="survey-step" data-step="1">
+                <div class="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm mb-6 space-y-4">
+                    <label class="block text-base font-bold text-slate-800">1. 您的性別 <span class="text-rose-500">*</span></label>
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer select-none option-label">
+                            <input type="radio" name="gender" value="男性" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold text-slate-700">男性</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer select-none option-label">
+                            <input type="radio" name="gender" value="女性" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold text-slate-700">女性</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer select-none option-label">
+                            <input type="radio" name="gender" value="其他" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold text-slate-700">其他</span>
+                        </label>
+                    </div>
+
+</div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" onclick="prevStep()" class="bg-white border border-slate-200 text-slate-500 font-bold py-4 rounded-2xl active:scale-95 transition">回上一頁</button>
+                    <button type="button" onclick="nextStep()" class="bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-md active:scale-95 transition">下一題</button>
                 </div>
             </div>
 
             <!-- Q2: 身份 -->
-            <div class="bg-white border border-slate-100 rounded-[2rem] p-5 shadow-sm space-y-3.5">
-                <label class="block text-sm font-bold text-slate-800 leading-tight">
+            <div class="survey-step" data-step="2">
+                <div class="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm mb-6 space-y-4">
+                    <label class="block text-base font-bold text-slate-800">2. 當前身份 <span class="text-rose-500">*</span></label>
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="education" value="國中學生" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">國中學生</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="education" value="高中學生" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">高中學生</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="education" value="五專學生" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
 
-2. 當前身份 <span class="text-rose-500">*</span>
-                </label>
-                <div class="space-y-2">
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="education" value="國中學生" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">國中學生</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="education" value="高中學生" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">高中學生</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="education" value="五專學生" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">五專學生</span>
-                    </label>
-
-<label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="education" value="大學學生" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">大學學生</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="education" value="社會人士" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">社會人士</span>
-                    </label>
+<span class="font-semibold">五專學生</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="education" value="大學學生" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">大學學生</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="education" value="社會人士" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">社會人士</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" onclick="prevStep()" class="bg-white border border-slate-200 text-slate-500 font-bold py-4 rounded-2xl active:scale-95 transition">回上一頁</button>
+                    <button type="button" onclick="nextStep()" class="bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-md active:scale-95 transition">下一題</button>
                 </div>
             </div>
 
             <!-- Q3: 網購頻率 -->
-            <div class="bg-white border border-slate-100 rounded-[2rem] p-5 shadow-sm space-y-3.5">
-                <label class="block text-sm font-bold text-slate-800 leading-tight">
-                    3. 您的網購的平均 / 使用頻率 <span class="text-rose-500">*</span>
-                </label>
-                <div class="space-y-2">
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="frequency" value="每周一次" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
+            <div class="survey-step" data-step="3">
+                <div class="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm mb-6 space-y-4">
+                    <label class="block text-base font-bold text-slate-800">3. 您的網購的平均 / 使用頻率 <span class="text-rose-500">*</span></label>
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
 
-<span class="text-sm font-semibold text-slate-700 leading-tight">每周一次</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="frequency" value="兩周三次" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">兩周三次</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="frequency" value="每月一次" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">每月一次</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="frequency" value="半年一次" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">半年一次</span>
-                    </label>
+<input type="radio" name="frequency" value="每周一次" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">每周一次</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="frequency" value="兩周三次" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">兩周三次</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="frequency" value="每月一次" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">每月一次</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="frequency" value="半年一次" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">半年一次</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="frequency" value="我幾乎沒有網購" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">我幾乎沒有網購</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
 
-<label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="frequency" value="我幾乎沒有網購" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">我幾乎沒有網購</span>
-                    </label>
+<button type="button" onclick="prevStep()" class="bg-white border border-slate-200 text-slate-500 font-bold py-4 rounded-2xl active:scale-95 transition">回上一頁</button>
+                    <button type="button" onclick="nextStep()" class="bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-md active:scale-95 transition">下一題</button>
                 </div>
             </div>
 
             <!-- Q4: 最愛用網購平台 -->
-            <div class="bg-white border border-slate-100 rounded-[2rem] p-5 shadow-sm space-y-3.5">
-                <label class="block text-sm font-bold text-slate-800 leading-tight">
-                    4. 您「最」愛用的網購平台 <span class="text-rose-500">*</span>
-                </label>
-                <div class="space-y-2">
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="platform" value="蝦皮" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">蝦皮</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="platform" value="MOMO" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
+            <div class="survey-step" data-step="4">
+                <div class="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm mb-6 space-y-4">
+                    <label class="block text-base font-bold text-slate-800">4. 您「最」愛用的網購平台 <span class="text-rose-500">*</span></label>
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="platform" value="蝦皮" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">蝦皮</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="platform" value="MOMO" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">MOMO</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="platform" value="PCHome" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">PCHome</span>
+                        </label>
 
-<span class="text-sm font-semibold text-slate-700 leading-tight">MOMO</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="platform" value="PCHome" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">PCHome</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="platform" value="酷澎" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">酷澎</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="platform" value="其他" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">其他</span>
-                    </label>
+<label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="platform" value="酷澎" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">酷澎</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="platform" value="其他" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">其他</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" onclick="prevStep()" class="bg-white border border-slate-200 text-slate-500 font-bold py-4 rounded-2xl active:scale-95 transition">回上一頁</button>
+                    <button type="button" onclick="nextStep()" class="bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-md active:scale-95 transition">下一題</button>
                 </div>
             </div>
 
-            <!-- Q5: 網購最常購買商品 (單選) -->
-            <div class="bg-white border border-slate-100 rounded-[2rem] p-5 shadow-sm space-y-3.5">
+            <!-- Q5: 網購最常購買商品 -->
+            <div class="survey-step" data-step="5">
+                <div class="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm mb-6 space-y-4">
+                    <label class="block text-base font-bold text-slate-800">5. 您網購「最常購買」哪一種商品類別？ <span class="text-rose-500">*</span></label>
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="favorite_category" value="文具玩具與書籍" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
 
-<label class="block text-sm font-bold text-slate-800 leading-tight">
-                    5. 您網購「最常購買」哪一種商品類別？ <span class="text-rose-500">*</span>
-                </label>
-                <div class="space-y-2">
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="favorite_category" value="文具玩具與書籍" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">文具玩具與書籍</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="favorite_category" value="零食飲料與食品" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">零食飲料與食品</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="favorite_category" value="衣服鞋子與穿搭配件" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">衣服鞋子與穿搭配件</span>
-                    </label>
+<span class="font-semibold">文具玩具與書籍</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="favorite_category" value="零食飲料與食品" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">零食飲料與食品</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="favorite_category" value="衣服鞋子與穿搭配件" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">衣服鞋子與穿搭配件</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="favorite_category" value="3C 電子與配件周邊" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">3C 電子與配件周邊</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="favorite_category" value="生活日用品與雜貨" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">生活日用品與雜貨</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
 
-<label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="favorite_category" value="3C 電子與配件周邊" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">3C 電子與配件周邊</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="favorite_category" value="生活日用品與雜貨" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">生活日用品與雜貨</span>
-                    </label>
+<button type="button" onclick="prevStep()" class="bg-white border border-slate-200 text-slate-500 font-bold py-4 rounded-2xl active:scale-95 transition">回上一頁</button>
+                    <button type="button" onclick="nextStep()" class="bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-md active:scale-95 transition">下一題</button>
                 </div>
             </div>
 
             <!-- Q6: 平均消費金額 -->
-            <div class="bg-white border border-slate-100 rounded-[2rem] p-5 shadow-sm space-y-3.5">
-                <label class="block text-sm font-bold text-slate-800 leading-tight">
-                    6. 您網購的單筆訂單「平均消費金額」大約落在哪個區間？ <span class="text-rose-500">*</span>
-                </label>
-                <div class="space-y-2">
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="spend_range" value="新台幣 300元以下" required
-
-class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">新台幣 300元以下</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="spend_range" value="新台幣 301 - 1,000元" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">新台幣 301 - 1,000元</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="spend_range" value="新台幣 1,001 - 3,000元" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">新台幣 1,001 - 3,000元</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="spend_range" value="新台幣 3,001元以上" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-
-<span class="text-sm font-semibold text-slate-700 leading-tight">新台幣 3,001元以上</span>
-                    </label>
+            <div class="survey-step" data-step="6">
+                <div class="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm mb-6 space-y-4">
+                    <label class="block text-base font-bold text-slate-800">6. 您網購的單筆訂單平均金額？ <span class="text-rose-500">*</span></label>
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="spend_range" value="300元以下" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">300元以下</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="spend_range" value="301 - 1,000元" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">301 - 1,000元</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="spend_range" value="1,001 - 3,000元" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+ 
+<span class="font-semibold">1,001 - 3,000元</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="spend_range" value="3,001元以上" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">3,001元以上</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" onclick="prevStep()" class="bg-white border border-slate-200 text-slate-500 font-bold py-4 rounded-2xl active:scale-95 transition">回上一頁</button>
+                    <button type="button" onclick="nextStep()" class="bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-md active:scale-95 transition">下一題</button>
                 </div>
             </div>
 
-            <!-- Q7: 付款方式 (多選 Checkbox) -->
-            <div class="bg-white border border-slate-100 rounded-[2rem] p-5 shadow-sm space-y-3.5">
-                <label class="block text-sm font-bold text-slate-800 leading-tight">
-                    7. 您網購時最常使用的「付款方式」是？（多選） <span class="text-rose-500">*</span>
-                </label>
-                <div class="space-y-2" id="payment-checkbox-group">
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="checkbox" name="payment_methods" value="超商取貨付款"
-                            class="h-5 w-5 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 shrink-0" onchange="checkCheckboxRequired(); updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">超商取貨付款</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="checkbox" name="payment_methods" value="信用卡 / 金融卡刷卡"
-                            class="h-5 w-5 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 shrink-0" onchange="checkCheckboxRequired(); updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">信用卡 / 金融卡刷卡</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-
-<input type="checkbox" name="payment_methods" value="行動支付 (如 LINE Pay 等)"
-                            class="h-5 w-5 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 shrink-0" onchange="checkCheckboxRequired(); updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">行動支付 (如 LINE Pay 等)</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="checkbox" name="payment_methods" value="請家人協助付款"
-                            class="h-5 w-5 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 shrink-0" onchange="checkCheckboxRequired(); updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">請家人協助付款</span>
-                    </label>
+            <!-- Q7: 付款方式 (Checkbox) -->
+            <div class="survey-step" data-step="7">
+                <div class="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm mb-6 space-y-4">
+                    <label class="block text-base font-bold text-slate-800">7. 最常使用的「付款方式」？（多選） <span class="text-rose-500">*</span></label>
+                    <div class="space-y-3" id="payment-checkbox-group">
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="checkbox" name="payment_methods" value="超商取貨付款" class="h-5 w-5 text-indigo-600 rounded" onchange="checkCheckboxRequired(); updateOptionStyles()">
+                            <span class="font-semibold">超商取貨付款</span>
+                        </label>
+ 
+<label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="checkbox" name="payment_methods" value="信用卡 / 金融卡" class="h-5 w-5 text-indigo-600 rounded" onchange="checkCheckboxRequired(); updateOptionStyles()">
+                            <span class="font-semibold">信用卡 / 金融卡刷卡</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="checkbox" name="payment_methods" value="行動支付" class="h-5 w-5 text-indigo-600 rounded" onchange="checkCheckboxRequired(); updateOptionStyles()">
+                            <span class="font-semibold">行動支付 (如 LINE Pay)</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="checkbox" name="payment_methods" value="請家人協助" class="h-5 w-5 text-indigo-600 rounded" onchange="checkCheckboxRequired(); updateOptionStyles()">
+                            <span class="font-semibold">請家人協助付款</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" onclick="prevStep()" class="bg-white border border-slate-200 text-slate-500 font-bold py-4 rounded-2xl active:scale-95 transition">回上一頁</button>
+                    <button type="button" onclick="nextStep()" class="bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-md active:scale-95 transition">下一題</button>
                 </div>
             </div>
 
             <!-- Q8: 平台主要吸引因素 -->
-            <div class="bg-white border border-slate-100 rounded-[2rem] p-5 shadow-sm space-y-3.5">
-                <label class="block text-sm font-bold text-slate-800 leading-tight">
-                    8. 選擇購物平台時，最吸引您的「主要因素」是什麼？ <span class="text-rose-500">*</span>
-                </label>
-                <div class="space-y-2">
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="attract_reason" value="商品價格最便宜" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">商品價格最便宜</span>
-                    </label>
+            <div class="survey-step" data-step="8">
 
-<label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="attract_reason" value="免運費活動頻率高" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">免運費活動頻率高</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="attract_reason" value="物流配達速度快" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">物流配達速度快</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
-                        <input type="radio" name="attract_reason" value="平台介面安全好用" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">平台介面安全好用</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-3.5 bg-slate-50/60 rounded-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition duration-150 select-none option-label">
+<div class="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm mb-6 space-y-4">
+                    <label class="block text-base font-bold text-slate-800">8. 選擇平台時的最主要因素？ <span class="text-rose-500">*</span></label>
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="attract_reason" value="價格最便宜" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">商品價格最便宜</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="attract_reason" value="免運費活動高" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">免運費活動頻率高</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="attract_reason" value="物流速度快" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">物流配達速度快</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer option-label">
+                            <input type="radio" name="attract_reason" value="介面安全好用" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
+                            <span class="font-semibold">平台介面安全好用</span>
+                        </label>
+                    </div>
+                </div>
 
-<input type="radio" name="attract_reason" value="商品款式或種類齊全" required
-                            class="h-5 w-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 shrink-0" onchange="updateOptionStyles()">
-                        <span class="text-sm font-semibold text-slate-700 leading-tight">商品款式或種類齊全</span>
-                    </label>
+<div class="grid grid-cols-2 gap-3">
+                    <button type="button" onclick="prevStep()" class="bg-white border border-slate-200 text-slate-500 font-bold py-4 rounded-2xl active:scale-95 transition">回上一頁</button>
+                    <button type="button" onclick="nextStep()" class="bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-md active:scale-95 transition">下一題</button>
                 </div>
             </div>
 
-            <!-- Q9: 物流滿意度 (星級打分) (修正點：展開 Template Literals 為靜態 HTML) -->
-            <div class="bg-white border border-slate-100 rounded-[2rem] p-5 shadow-sm space-y-3.5">
-                <label class="block text-sm font-bold text-slate-800 leading-tight">
-                    9. 您對目前台灣物流「取貨便利與配送速度」滿意度打分 <span class="text-rose-500">*</span>
-                </label>
-                
-                <div class="flex flex-col items-center justify-center p-5 bg-slate-50/50 border border-slate-200/60 rounded-2xl">
-                    <div class="flex space-x-2" id="rating-stars-container">
-                        <!-- 第 1 顆星 -->
-                        <label class="cursor-pointer transition active:scale-125 hover:scale-110">
-                            <input type="radio" name="delivery_rating" value="1" required class="sr-only" onchange="updateStarUI(1)">
-                            <svg class="w-9 h-9 text-slate-300 transition-colors duration-150 fill-current star-svg" data-index="1" viewBox="0 0 24 24">
-                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                            </svg>
-                        </label>
-                        <!-- 第 2 顆星 -->
-                        <label class="cursor-pointer transition active:scale-125 hover:scale-110">
-                            <input type="radio" name="delivery_rating" value="2" required class="sr-only" onchange="updateStarUI(2)">
+            <!-- Q9: 物流滿意度 (星星) -->
+            <div class="survey-step" data-step="9">
+                <div class="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm mb-6 space-y-4">
+                    <label class="block text-base font-bold text-slate-800">9. 物流滿意度打分 (1-5) <span class="text-rose-500">*</span></label>
+                    <div class="flex flex-col items-center justify-center p-5 bg-slate-50/50 border border-slate-200 rounded-2xl">
+                        <div class="flex space-x-2" id="rating-stars-container">
+                            <!-- 第 1-5 顆星 -->
+                            <label class="cursor-pointer transition active:scale-125">
+                                <input type="radio" name="delivery_rating" value="1" required class="sr-only" onchange="updateStarUI(1)">
+                                <svg class="w-10 h-10 text-slate-300 fill-current star-svg" data-index="1" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </label>
+                            <label class="cursor-pointer transition active:scale-125">
+                                <input type="radio" name="delivery_rating" value="2" required class="sr-only" onchange="updateStarUI(2)">
 
-<svg class="w-9 h-9 text-slate-300 transition-colors duration-150 fill-current star-svg" data-index="2" viewBox="0 0 24 24">
-                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                            </svg>
-                        </label>
-                        <!-- 第 3 顆星 -->
-                        <label class="cursor-pointer transition active:scale-125 hover:scale-110">
-                            <input type="radio" name="delivery_rating" value="3" required class="sr-only" onchange="updateStarUI(3)">
-                            <svg class="w-9 h-9 text-slate-300 transition-colors duration-150 fill-current star-svg" data-index="3" viewBox="0 0 24 24">
-                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                            </svg>
-                        </label>
-                        <!-- 第 4 顆星 -->
-                        <label class="cursor-pointer transition active:scale-125 hover:scale-110">
-                            <input type="radio" name="delivery_rating" value="4" required class="sr-only" onchange="updateStarUI(4)">
-                            <svg class="w-9 h-9 text-slate-300 transition-colors duration-150 fill-current star-svg" data-index="4" viewBox="0 0 24 24">
-                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                            </svg>
-                        </label>
-                        <!-- 第 5 顆星 -->
-                        <label class="cursor-pointer transition active:scale-125 hover:scale-110">
-                            <input type="radio" name="delivery_rating" value="5" required class="sr-only" onchange="updateStarUI(5)">
-
-<svg class="w-9 h-9 text-slate-300 transition-colors duration-150 fill-current star-svg" data-index="5" viewBox="0 0 24 24">
-                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                            </svg>
-                        </label>
+<svg class="w-10 h-10 text-slate-300 fill-current star-svg" data-index="2" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </label>
+                            <label class="cursor-pointer transition active:scale-125">
+                                <input type="radio" name="delivery_rating" value="3" required class="sr-only" onchange="updateStarUI(3)">
+                                <svg class="w-10 h-10 text-slate-300 fill-current star-svg" data-index="3" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </label>
+                            <label class="cursor-pointer transition active:scale-125">
+                                <input type="radio" name="delivery_rating" value="4" required class="sr-only" onchange="updateStarUI(4)">
+                                <svg class="w-10 h-10 text-slate-300 fill-current star-svg" data-index="4" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </label>
+                            <label class="cursor-pointer transition active:scale-125">
+                                <input type="radio" name="delivery_rating" value="5" required class="sr-only" onchange="updateStarUI(5)">
+                                <svg class="w-10 h-10 text-slate-300 fill-current star-svg" data-index="5" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </label>
+                        </div>
+                        <span class="text-xs text-slate-400 font-bold mt-3" id="rating-text">尚未選擇分數</span>
                     </div>
-                    <span class="text-[11px] text-slate-400 font-bold mt-2.5" id="rating-text">尚未選擇分數</span>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+
+<button type="button" onclick="prevStep()" class="bg-white border border-slate-200 text-slate-500 font-bold py-4 rounded-2xl active:scale-95 transition">回上一頁</button>
+                    <button type="button" onclick="nextStep()" class="bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-md active:scale-95 transition">下一題</button>
                 </div>
             </div>
 
             <!-- Q10: 期待與建議 -->
-            <div class="bg-white border border-slate-100 rounded-[2rem] p-5 shadow-sm space-y-3.5">
-                <label class="block text-sm font-bold text-slate-800 leading-tight">
-                    10. 對於未來的網購體驗，您有什麼最期待或想建議的地方？
-                </label>
-                <textarea name="feedback" rows="4" placeholder="請在此輸入您的看法與具體建議..." 
-                    class="w-full border border-slate-200 bg-slate-50/60 rounded-2xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all duration-200"></textarea>
-            </div>
-            
-            <!-- 提交按鈕：整合 Pageclip 加載旋轉動畫 -->
-            <div class="py-4">
-                <button type="submit" class="pageclip-form__submit w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold py-4 rounded-2xl shadow-lg transition active:scale-98 flex items-center justify-center">
-                    <span>提交問卷 (Submit)</span>
-                </button>
+            <div class="survey-step" data-step="10">
+                <div class="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm mb-6 space-y-4">
+                    <label class="block text-base font-bold text-slate-800">10. 您對未來的網購體驗有什麼期待？</label>
+                    <textarea name="feedback" rows="5" placeholder="請在此輸入您的看法與建議..." 
+                        class="w-full border border-slate-200 bg-slate-50/60 rounded-2xl px-4 py-4 text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all"></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" onclick="prevStep()" class="bg-white border border-slate-200 text-slate-500 font-bold py-4 rounded-2xl active:scale-95 transition">回上一頁</button>
+                    <button type="submit" class="pageclip-form__submit bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-lg active:scale-95 transition">提交問卷</button>
+                </div>
             </div>
         </form>
-
     </main>
 
-    <!-- 步驟 1：將 Pageclip 的 JS 程式碼放在結束標籤 </body> 之前 -->
     <script src="https://s.pageclip.co/v1/pageclip.js" charset="utf-8"></script>
 
-    <!-- 行動端交互核心邏輯 -->
     <script>
-        // 初始化載入狀態檢測 (如果是在開發平台 preview 中，會顯示測試模式)
-        window.addEventListener('load', () => {
-            const banner = document.getElementById('connection-banner');
+        let currentStep = 0;
+        const totalSteps = 10; // 0 到 10，共 11 頁
 
-const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-            const isPlatform = window.location.hostname.includes('google') || window.location.hostname.includes('goog');
+        function showStep(n) {
+            const steps = document.querySelectorAll(".survey-step");
+            steps.forEach(s => s.classList.remove("active"));
+            steps[n].classList.add("active");
             
-            if (isPlatform) {
-                banner.innerText = "平台預覽模式 🔵 填寫將會送至測試資料庫";
-                banner.className = "bg-indigo-600 text-white text-[11px] sm:text-xs font-semibold py-1.5 px-4 text-center";
+            // 更新進度條與計數
+            currentStep = n;
+
+const progress = ((n + 1) / (totalSteps + 1)) * 100;
+            document.getElementById("progress-bar").style.width = progress + "%";
+            document.getElementById("step-counter").innerText = n + 1;
+            
+            // 捲動到頂部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function nextStep() {
+            if (validateStep()) {
+                if (currentStep < totalSteps) {
+                    showStep(currentStep + 1);
+                }
             } else {
-                banner.innerText = "消費者網購調查 🟢 Pageclip 雲端問卷已安全就緒";
-                banner.className = "bg-emerald-600 text-white text-[11px] sm:text-xs font-semibold py-1.5 px-4 text-center";
+                alert("請完成本題再繼續下一題哦！");
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                showStep(currentStep - 1);
+            }
+        }
+
+        function validateStep() {
+            // 介紹頁與非必填頁 (最後一頁) 不需要驗證
+            if (currentStep === 0 || currentStep === 10) return true;
+            
+            const currentStepEl = document.querySelector(`.survey-step[data-step="${currentStep}"]`);
+            const inputs = currentStepEl.querySelectorAll("input[required]");
+            
+            if (inputs.length === 0) return true;
+            
+            // 檢查 Radio 是否選取
+            if (inputs[0].type === "radio") {
+                return Array.from(inputs).some(input => input.checked);
             }
             
-            // 預先檢驗 Checkbox 狀態
+            // 檢查 Checkbox 是否至少選一個
+            if (inputs[0].type === "checkbox") {
+                const checked = currentStepEl.querySelectorAll('input[type="checkbox"]:checked');
+                return checked.length > 0;
+            }
+            
+            return true;
+        }
+
+        // --- 以下保留您原本的交互邏輯 ---
+
+        window.addEventListener('load', () => {
+            const banner = document.getElementById('connection-banner');
+            const isPlatform = window.location.hostname.includes('google') || window.location.hostname.includes('goog');
+            if (isPlatform) {
+                banner.innerText = "平台預覽模式 🔵 資料將送至測試庫";
+
+banner.className = "bg-indigo-600 text-white text-[10px] py-1 text-center font-bold";
+            } else {
+                banner.innerText = "消費者網購調查 🟢 Pageclip 安全就緒";
+                banner.className = "bg-emerald-600 text-white text-[10px] py-1 text-center font-bold";
+            }
             checkCheckboxRequired();
         });
 
-        // 動態高亮被選取的單選/複選外框與背景，提升手機觸控流暢度
         function updateOptionStyles() {
             document.querySelectorAll('.option-label').forEach(label => {
                 const input = label.querySelector('input');
                 if (input && input.checked) {
-                    label.classList.remove('bg-slate-50/60', 'border-slate-200/80', 'text-slate-700');
-                    label.classList.add('bg-indigo-50/60', 'border-indigo-500', 'text-indigo-900', 'ring-1', 'ring-indigo-500/20');
+                    label.classList.add('bg-indigo-50', 'border-indigo-500', 'text-indigo-900', 'ring-1', 'ring-indigo-500/20');
+                    label.classList.remove('bg-slate-50/60', 'border-slate-200');
                 } else {
-                    label.classList.remove('bg-indigo-50/60', 'border-indigo-500', 'text-indigo-900', 'ring-1', 'ring-indigo-500/20');
-                    label.classList.add('bg-slate-50/60', 'border-slate-200/80', 'text-slate-700');
+                    label.classList.remove('bg-indigo-50', 'border-indigo-500', 'text-indigo-900', 'ring-1', 'ring-indigo-500/20');
+                    label.classList.add('bg-slate-50/60', 'border-slate-200');
                 }
             });
         }
 
-        // 強制多選 (Checkbox) 必須至少點選一個，否則手機瀏覽器無法觸發原生 required
         function checkCheckboxRequired() {
             const group = document.getElementById('payment-checkbox-group');
             if (!group) return;
             const checked = group.querySelectorAll('input[type="checkbox"]:checked');
             const all = group.querySelectorAll('input[type="checkbox"]');
-            
-all.forEach(cb => {
-                if (checked.length > 0) {
-                    cb.removeAttribute('required');
-                } else {
-                    cb.setAttribute('required', 'required');
-                }
+            all.forEach(cb => {
+                if (checked.length > 0) cb.removeAttribute('required');
+                else cb.setAttribute('required', 'required');
             });
         }
 
-        // 點選星星滿意度評分時的動態效果
-        function updateStarUI(ratingValue) {
+        function updateStarUI(val) {
             const stars = document.querySelectorAll('.star-svg');
             stars.forEach(star => {
-                const index = parseInt(star.getAttribute('data-index'));
-                if (index <= ratingValue) {
-                    star.classList.add('text-amber-400');
-                    star.classList.remove('text-slate-300');
-                } else {
-                    star.classList.add('text-slate-300');
-                    star.classList.remove('text-amber-400');
-                }
+                const idx = parseInt(star.getAttribute('data-index'));
+                star.classList.toggle('text-amber-400', idx <= val);
+                star.classList.toggle('text-slate-300', idx > val);
             });
-
-            // 更新評分文字
-            const textEl = document.getElementById('rating-text');
+ 
+const textEl = document.getElementById('rating-text');
             const desc = ['極不滿意', '不滿意', '普通', '滿意', '極為滿意'];
-            textEl.innerText = `${ratingValue} 分 (${desc[ratingValue - 1]})`;
-            textEl.className = "text-xs text-amber-500 font-extrabold mt-2.5";
+            textEl.innerText = `${val} 分 (${desc[val - 1]})`;
+            textEl.className = "text-xs text-amber-500 font-extrabold mt-3";
         }
     </script>
 </body>
