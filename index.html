@@ -443,6 +443,7 @@ const isLocal = window.location.hostname === 'localhost' || window.location.host
             if (!group) return;
             const checked = group.querySelectorAll('input[type="checkbox"]:checked');
             const all = group.querySelectorAll('input[type="checkbox"]');
+            
 all.forEach(cb => {
                 if (checked.length > 0) {
                     cb.removeAttribute('required');
