@@ -78,30 +78,35 @@
             </div>
 
             <!-- Q1: 性別 -->
-            <div class="survey-step" data-step="1">
-                <div class="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm mb-6 space-y-4">
-                    <label class="block text-base font-bold text-slate-800">1. 您的性別 <span class="text-rose-500">*</span></label>
-                    <div class="space-y-3">
-                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer select-none option-label">
-                            <input type="radio" name="gender" value="男性" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
-                            <span class="font-semibold text-slate-700">男性</span>
-                        </label>
-                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer select-none option-label">
-                            <input type="radio" name="gender" value="女性" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
-                            <span class="font-semibold text-slate-700">女性</span>
-                        </label>
-                        <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer select-none option-label">
-                            <input type="radio" name="gender" value="其他" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles()">
-                            <span class="font-semibold text-slate-700">其他</span>
-                        </label>
-                    </div>
-
-</div>
-                <div class="grid grid-cols-2 gap-3">
-                    <button type="button" onclick="prevStep()" class="bg-white border border-slate-200 text-slate-500 font-bold py-4 rounded-2xl active:scale-95 transition">回上一頁</button>
-                    <button type="button" onclick="nextStep()" class="bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-md active:scale-95 transition">下一題</button>
+<div class="survey-step" data-step="1">
+    <div class="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm mb-6 space-y-4">
+        <label class="block text-base font-bold text-slate-800">1. 您的性別 <span class="text-rose-500">*</span></label>
+        <div class="space-y-3">
+            <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer select-none option-label">
+                <input type="radio" name="gender" value="男性" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles(); toggleGenderOther(false)">
+                <span class="font-semibold text-slate-700">男性</span>
+            </label>
+            <label class="flex items-center space-x-3 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer select-none option-label">
+                <input type="radio" name="gender" value="女性" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles(); toggleGenderOther(false)">
+                <span class="font-semibold text-slate-700">女性</span>
+            </label>
+            <!-- 其他：簡答題模式 -->
+            <label class="flex flex-col space-y-2 p-4 bg-slate-50/60 rounded-2xl border border-slate-200 cursor-pointer select-none option-label">
+                <div class="flex items-center space-x-3">
+                    <input type="radio" name="gender" value="其他" required class="h-5 w-5 text-indigo-600" onchange="updateOptionStyles(); toggleGenderOther(true)">
+                    <span class="font-semibold text-slate-700">其他 (請簡述)</span>
                 </div>
-            </div>
+ (1/2)
+<input type="text" name="gender_other" id="gender-other-input" maxlength="50" placeholder="請在此輸入 (限 50 字)..." 
+                       class="hidden mt-2 w-full border-b border-slate-300 bg-transparent px-2 py-1 text-sm focus:border-indigo-500 outline-none transition-all">
+            </label>
+        </div>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+        <button type="button" onclick="prevStep()" class="bg-white border border-slate-200 text-slate-500 font-bold py-4 rounded-2xl active:scale-95 transition">回上一頁</button>
+        <button type="button" onclick="nextStep()" class="bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-md active:scale-95 transition">下一題</button>
+    </div>
+</div>
 
             <!-- Q2: 身份 -->
             <div class="survey-step" data-step="2">
